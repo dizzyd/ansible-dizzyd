@@ -1,0 +1,65 @@
+* Update system
+ - pacman -Syu
+* Install ansible, firefox
+ - pacman -S ansible firefox
+* Setup yubikey
+ - pacman -S gnupg yubikey-personalization
+ - cp /usr/share/doc/gnupg/examples/systemd-user/* ~/.config/systemd/user
+ - systemctl --user [daemon-reload, enable *.socket, start *.socket]
+ - export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"$:w 
+* Fix scrolling
+ - Edit /etc/X11/xorg.conf.d/30-touchpad.conf
+ - Option "NaturalScrolling" "true"
+* Install NVidia/Bumblebee
+ - pacman -S bumblebee bbswitch nvidia mesa acpi_call lib32-virtualgl lib32-nvidia-utils
+ - systemctl enable bumblebeed.service
+ - gpasswd -a dizzyd bumblebee
+ - Edit /etc/bumblebee/bumblebee.conf
+   * [driver-nvidia]
+     PMMethod=bbswitch
+* Lock on sleep
+  - pacman -S xss-lock
+  - Entry in .i3/config
+    exec xset s 180
+    xss-lock -- i3lock -n -c 010101xs
+* TLP
+  - pacman -S tlp tlp-rdw
+  - systemctl enable tlp.service \
+  && systemctl enable tlp-sleep.service \
+  && systemctl mask systemd-rfkill.service \
+  && systemctl mask systemd-rfkill.socket \
+  && systemctl enable NetworkManager-dispatcher.service
+  - Edit /etc/default/tlp
+    	 TLP_DEFAULT_MODE=BAT
+	 TLP_PERSISTENT_DEFAULT=1
+	 RUNTIME_PM_BLACKLIST="01:00.0"
+	 RUNTIME_PM_DRIVER_BLACKLIST="amdgpu mei_me noveau nvidia pcieport radeon"
+  - Edit /etc/modprobe.d/audio_powersave.conf:
+    options snd_hda_intel power_save=1
+  - Edit /etc/modprobe.d/i915.conf
+    options i915 enable_guc=3 enable_fbc=1
+  - Edit /etc/modprobe.d/iwlwifi.conf
+    options iwlwifi power_save=1
+	 
+* Edit /etc/default/grub
+  - Add pcie_aspm=force to GRUB_CMDLINE_LINUX_DEFAULT
+  - Run grub-mkconfig -o /boot/grub/grub.conf
+
+* Enable periodic trim
+  - systemctl enable fstrim.timer
+
+* Enable SSHD
+  - pacman -S openssh
+  - systemctl enable sshd.service
+  - systemctl start sshd.service
+
+Packages (pacman):
+* go
+* go-tools
+* xorg-xbacklight
+* redshift
+* unzip, zip
+
+Packages (yay):
+* spotify
+* goland
