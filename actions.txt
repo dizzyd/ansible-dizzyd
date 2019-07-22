@@ -53,13 +53,16 @@
   - systemctl enable sshd.service
   - systemctl start sshd.service
 
+
 Packages (pacman):
 * go
 * go-tools
 * xorg-xbacklight
 * redshift
 * unzip, zip
+* emacs
 
 Packages (yay):
 * spotify
 * goland
+* simplenote-bin
