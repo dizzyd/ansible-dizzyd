@@ -53,6 +53,9 @@
   - systemctl enable sshd.service
   - systemctl start sshd.service
 
+* Enable auto-timezone adjustment
+  - Add script in /etc/NetworkManager/dispatcher.d/09-timezone
+
 
 Packages (pacman):
 * go
@@ -66,3 +69,4 @@ Packages (yay):
 * spotify
 * goland
 * simplenote-bin
+
