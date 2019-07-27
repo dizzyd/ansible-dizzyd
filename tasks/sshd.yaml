@@ -1,0 +1,9 @@
+- name: Install SSH
+  pacman:
+    name: openssh
+
+- name: Enable SSHD
+  systemd:
+    name: sshd.service
+    enabled: yes
+    state: started
