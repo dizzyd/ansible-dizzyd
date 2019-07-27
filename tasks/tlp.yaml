@@ -1,0 +1,51 @@
+- name: Install TLP packages
+  pacman:
+    name:
+      - tlp
+      - tlp-rdw
+
+- name: Enable TLP services
+  become: yes
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items:
+    - 'tlp'
+    - 'tlp-sleep'
+    - 'NetworkManager-dispatcher'
+
+- name: Mask rfkill service/socket
+  become: yes
+  systemd:
+    name: "{{ item }}"
+    masked: yes
+  with_items:
+    - 'systemd-rfkill.service'
+    - 'systemd-rfkill.socket'
+
+- name: Update settings in TLP defaults
+  become: yes
+  lineinfile:
+    path: /etc/default/tlp
+    regexp: "{{ item.regex }}"
+    line: "{{ item.line }}"
+  with_items:
+    - {regex: "^TLP_DEFAULT_MODE", line: "TLP_DEFAULT_MODE=BAT"}
+    - {regex: "^TLP_PERSISTENT_DEFAULT", line: "TLP_PERSISTENT_DEFAULT=1"}
+    - {regex: "^RUNTIME_PM_BLACKLIST", line: "RUNTIME_PM_BLACKLIST=\"01:00.0\""}
+    - {regex: "^RUNTIME_PM_DRIVER_BLACKLIST", line: "RUNTIME_PM_DRIVER_BLACKLIST=\"mei_me noveau nvidia pcieport\""}
+
+
+- name: Update modprobe.d options
+  become: yes
+  lineinfile:
+    path: "/etc/modprobe.d/{{ item.file }}"
+    regexp: "^options "
+    line: "{{ item.line }}"
+    create: yes
+  with_items:
+    - {file: "audio_powersave.conf", line: "options snd_hda_intel power_save=1"}
+    - {file: "i915.conf", line: "options i915 enable_guc=3 enable_fbc=1"}
+    - {file: "iwlwifi.conf", line: "options iwlwifi power_save=1"}
+

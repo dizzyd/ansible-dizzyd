@@ -1,0 +1,20 @@
+- name: run the playbook tasks on the localhost
+  hosts: localhost
+  connection: local
+  tasks:
+ - name: Setup yubikey
+   import_tasks: tasks/yubikey.yaml 
+
+  - name: Enable natural scrolling
+    become: yes
+    blockinfile:
+        path: /etc/X11/xorg.conf.d/30-touchpad.conf
+        insertafter: "Option \"Tapping\" \"on\""
+        block: |
+          "Option" "NaturalScrolling" "true"
+
+  - name: Setup NVidia/Bumblebee
+    import_tasks: tasks/bumblebee.yaml
+
+  - name: Setup TLP
+    import_tasks: tasks/tlp.yaml    

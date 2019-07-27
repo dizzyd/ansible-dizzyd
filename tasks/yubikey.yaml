@@ -1,0 +1,21 @@
+- name: Install yubikey packages
+  become: yes
+  command: pacman -S --needed gnupg yubikey-personalization
+
+- name: Copy systemd files for gnupg user agent
+  copy:
+    src: /usr/share/doc/gnupg/examples/systemd-user/
+    dest: /home/dizzyd/.config/systemd/user/
+
+- name: Reload systemd daemons
+  shell: systemctl --user daemon-reload
+
+- name: Enable systemd gnupg sockets
+  shell: systemctl --user enable *.socket
+  args:
+    chdir: /home/dizzyd/.config/systemd/user/
+
+- name: Start systemd gnupg sockets
+  shell: systemctl --user start *.socket
+  args:
+    chdir: /home/dizzyd/.config/systemd/user/
