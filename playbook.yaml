@@ -2,8 +2,11 @@
   hosts: localhost
   connection: local
   tasks:
- - name: Setup yubikey
-   import_tasks: tasks/yubikey.yaml 
+  - name: Tweak GRUB
+    import_tasks: tasks/grub.yaml
+    
+  - name: Setup yubikey
+    import_tasks: tasks/yubikey.yaml 
 
   - name: Enable natural scrolling
     become: yes
