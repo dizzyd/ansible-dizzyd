@@ -1,0 +1,24 @@
+- name: Copy config files
+  copy:
+    src: "files/{{ item.src }}"
+    dest: "/home/dizzyd/{{ item.dest }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - {src: "i3.config", dest: ".i3/config", mode: '0644'}
+    - {src: "i3.net-speed.sh", dest: "net-speed.sh", mode: '0755'}
+    - {src: "Xresources", dest: ".Xresources", mode: '0644'}
+
+- name: Rebuild Xresources
+  command: xrdb -merge /home/dizzyd/.Xresources
+
+- name: Add SSH_AUTH_SOCK to .profile
+  lineinfile: 
+    path: /home/dizzyd/.profile
+    regex: "^export SSH_AUTH_SOCK"
+    line: "export SSH_AUTH_SOCK=\"/run/user/$(id -u)/gnupg/S.gpg-agent.ssh\""
+
+- name: Change default browser in mimeapps.list
+  replace:
+    path: /home/dizzyd/.config/mimeapps.list
+    regexp: "userapp-Pale Moon.desktop"
+    replace: "firefox.desktop"
