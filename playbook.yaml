@@ -1,8 +1,11 @@
 - name: run the playbook tasks on the localhost
   hosts: localhost
   connection: local
+  vars:
+    is_matebookx: "{{ ansible_facts['product_name'] == 'MACH-WX9' }}"
   tasks:
   - name: Tweak GRUB
+    when: is_matebookx|bool
     import_tasks: tasks/grub.yaml
 
   - name: Enable periodic SSD trim
@@ -24,9 +27,11 @@
           "Option" "NaturalScrolling" "true"
 
   - name: Setup NVidia/Bumblebee
+    when: is_matebookx|bool
     import_tasks: tasks/bumblebee.yaml
 
   - name: Setup TLP
+    when: is_matebookx|bool
     import_tasks: tasks/tlp.yaml  
     
   - name: Setup SSHD
