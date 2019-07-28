@@ -22,7 +22,6 @@
     dest: "/home/dizzyd/.Xresources"
     mode: 0644
 
-
 - name: Rebuild Xresources
   command: xrdb -merge /home/dizzyd/.Xresources
 
@@ -36,4 +35,10 @@
   replace:
     path: /home/dizzyd/.config/mimeapps.list
     regexp: "userapp-Pale Moon.desktop"
-    replace: "firefox.desktop"
+    replace: "google-chrome.desktop"
+
+- name: Change default browser in .profile
+  replace:
+    path: /home/dizzyd/.profile
+    regex: "^export BROWSER"
+    replace: "export BROWSER=/usr/bin/google-chrome-stable"
