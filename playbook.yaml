@@ -3,7 +3,11 @@
   connection: local
   vars:
     is_matebookx: "{{ ansible_facts['product_name'] == 'MACH-WX9' }}"
+    xorg_dpi: "{% if is_matebookx %}200{% else %}120{% endif %}"
   tasks:
+  - name: Install yay for AUR support
+    pacman: name=yay state=present
+
   - name: Tweak GRUB
     when: is_matebookx|bool
     import_tasks: tasks/grub.yaml
@@ -19,6 +23,7 @@
     import_tasks: tasks/yubikey.yaml 
 
   - name: Enable natural scrolling
+    when: is_matebookx|bool
     become: yes
     blockinfile:
         path: /etc/X11/xorg.conf.d/30-touchpad.conf
@@ -44,8 +49,18 @@
         dest: /etc/NetworkManager/dispatcher.d/09-timezone
         mode: 0755
 
-  - name: Install yay for AUR support
-    pacman: name=yay state=present
+  - name: Install fonts
+    yay:
+      name:
+        - ttf-croscore
+        - ttf-dejavu
+        - ttf-mac-fonts
+        - ttf-ms-fonts
+        - ttf-anonymous-pro
+        - ttf-cardo
+        - ttf-roboto-mono
+        - ttf-oxygen
+        - ttf-opensans
         
   - name: Install common packages
     yay:
@@ -63,15 +78,11 @@
         - zoom
         - firefox
         - google-chrome
-        - ttf-croscore
-        - ttf-dejavu
-        - ttf-mac-fonts
-        - ttf-google-fonts-git>=r1377
-        - ttf-ms-fonts
         - dnsutils
         - pkgfile
         - zeal
         - franz
+        - op
 
   - name: Apply user config
     import_tasks: tasks/userconfig.yaml
