@@ -40,5 +40,5 @@
 - name: Change default browser in .profile
   replace:
     path: /home/dizzyd/.profile
-    regex: "^export BROWSER"
+    regexp: "^export BROWSER"
     replace: "export BROWSER=/usr/bin/google-chrome-stable"
