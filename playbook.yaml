@@ -3,7 +3,7 @@
   connection: local
   vars:
     is_matebookx: "{{ ansible_facts['product_name'] == 'MACH-WX9' }}"
-    xorg_dpi: "{% if is_matebookx %}200{% else %}120{% endif %}"
+    xorg_dpi: "{% if is_matebookx %}200{% else %}110{% endif %}"
 
   tasks:
   - name: Install yay for AUR support
