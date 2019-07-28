@@ -1,4 +1,4 @@
-Xft.dpi:       200
+Xft.dpi:       {{ xorg_dpi }}
 Xft.antialias: true
 Xft.hinting:   true
 Xft.rgba:      rgb

@@ -15,7 +15,13 @@
     - {src: "i3.config", dest: ".i3/config", mode: '0644'}
     - {src: "i3.net-speed.sh", dest: ".i3/net-speed.sh", mode: '0755'}
     - {src: "i3.status.config", dest: ".config/i3status/config", mode: '0644'}
-    - {src: "Xresources", dest: ".Xresources", mode: '0644'}
+
+- name: Copy Xresources (fixing up default DPI)
+  template:
+    src: "files/Xresources"
+    dest: "/home/dizzyd/.Xresources"
+    mode: 0644
+
 
 - name: Rebuild Xresources
   command: xrdb -merge /home/dizzyd/.Xresources
