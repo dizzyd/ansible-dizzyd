@@ -1,3 +1,11 @@
+- name: Create pre-req directories
+  file:
+    path: "/home/dizzyd/{{ item.path }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - {path: ".config/i3status"}
+
 - name: Copy config files
   copy:
     src: "files/{{ item.src }}"
