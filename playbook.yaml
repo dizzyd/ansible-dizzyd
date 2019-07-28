@@ -71,6 +71,7 @@
         - dnsutils
         - pkgfile
         - zeal
+        - franz
 
   - name: Apply user config
     import_tasks: tasks/userconfig.yaml
