@@ -1,6 +1,10 @@
 - name: Install yubikey packages
   become: yes
-  command: pacman -S --needed gnupg yubikey-personalization
+  pacman:
+    name:
+        - gnupg
+        - yubikey-personalization
+    state: present
 
 - name: Copy systemd files for gnupg user agent
   copy:
