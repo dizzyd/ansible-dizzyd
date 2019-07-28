@@ -1,10 +1,18 @@
 - name: Install yubikey packages
-  become: yes
-  pacman:
+  yay:
     name:
         - gnupg
         - yubikey-personalization
+        - yubikey-manager
+        - acsccid
     state: present
+
+- name: Enable pcscd
+  become: yes
+  systemd:
+    name: pcscd
+    enabled: yes
+    state: started
 
 - name: Copy systemd files for gnupg user agent
   copy:
