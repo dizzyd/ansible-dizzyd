@@ -4,13 +4,10 @@
   vars:
     is_matebookx: "{{ ansible_facts['product_name'] == 'MACH-WX9' }}"
     xorg_dpi: "{% if is_matebookx %}200{% else %}120{% endif %}"
+
   tasks:
   - name: Install yay for AUR support
     pacman: name=yay state=present
-
-  - name: Tweak GRUB
-    when: is_matebookx|bool
-    import_tasks: tasks/grub.yaml
 
   - name: Enable periodic SSD trim
     become: yes
@@ -22,23 +19,6 @@
   - name: Setup yubikey
     import_tasks: tasks/yubikey.yaml 
 
-  - name: Enable natural scrolling
-    when: is_matebookx|bool
-    become: yes
-    blockinfile:
-        path: /etc/X11/xorg.conf.d/30-touchpad.conf
-        insertafter: "Option \"Tapping\" \"on\""
-        block: |
-          "Option" "NaturalScrolling" "true"
-
-  - name: Setup NVidia/Bumblebee
-    when: is_matebookx|bool
-    import_tasks: tasks/bumblebee.yaml
-
-  - name: Setup TLP
-    when: is_matebookx|bool
-    import_tasks: tasks/tlp.yaml  
-    
   - name: Setup SSHD
     import_tasks: tasks/sshd.yaml
 
@@ -47,7 +27,15 @@
     copy:
         src: files/update-tz.sh
         dest: /etc/NetworkManager/dispatcher.d/09-timezone
-        mode: 0755
+        mode: 0755    
+
+  - name: Setup desktop
+    when: not is_matebookx|bool
+    include_tasks: tasks/desktop.yaml
+
+  - name: Setup MatebookX
+    when: is_matebookx|bool
+    include_tasks: tasks/matebookx.yaml
 
   - name: Install fonts
     yay:

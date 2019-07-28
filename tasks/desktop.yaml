@@ -1,0 +1,15 @@
+- name: Disable noveau via grub
+  become: yes
+  lineinfile:
+    path: /etc/default/grub
+    regex: "^GRUB_CMDLINE_LINUX="
+    line: "GRUB_CMDLINE_LINUX=\"nouveau.modeset=0\""
+
+- name: Regenerate grub
+  become: yes
+  command: update-grub
+
+- name: Install nvidia proprietary drivers
+  yay:
+    name: linux419-nvidia
+
