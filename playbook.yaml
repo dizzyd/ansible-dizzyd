@@ -63,6 +63,9 @@
         - ttf-mac-fonts
         - ttf-google-fonts-git>=r1377
         - ttf-ms-fonts
+        - dnsutils
+        - pkgfile
+        - zeal
 
   - name: Copy config files
     copy:
