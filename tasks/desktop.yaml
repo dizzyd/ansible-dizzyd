@@ -33,3 +33,10 @@
     dest: /etc/modules-load.d/hid-magicmouse.conf
     content: |
         hid-magicmouse 
+
+- name: Set power-save / auto-lock options in .xprofile
+  copy:
+    dest: /home/dizzyd/.xprofile
+    content: |
+        xset dpms 600 3600
+        xset s 0        

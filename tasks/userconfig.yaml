@@ -42,3 +42,11 @@
     path: /home/dizzyd/.profile
     regexp: "^export BROWSER"
     replace: "export BROWSER=/usr/bin/google-chrome-stable"
+
+- name: Add reference to .xprofile to .xinitrc
+  lineinfile:
+    path: /home/dizzyd/.xinitrc
+    regexp: "~/.xprofile"
+    line: "[ -f ~/.xprofile ] && . ~/.xprofile"
+    insertbefore: "^DEFAULT_SESSION="
+
