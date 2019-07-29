@@ -1,11 +1,3 @@
-## Natural scrolling config
-- name: Enable natural scrolling
-  become: yes
-  blockinfile:
-      path: /etc/X11/xorg.conf.d/30-touchpad.conf
-      insertafter: "Option \"Tapping\" \"on\""
-      block: |
-        "Option" "NaturalScrolling" "true"
 
 ## NVidia configuration
 - name: Install NVidia and Bumblebee packages
