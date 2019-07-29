@@ -9,7 +9,27 @@
   become: yes
   command: update-grub
 
-- name: Install nvidia proprietary drivers
+- name: Install nvidia proprietary drivers, linux headers and dkms
   yay:
-    name: linux419-nvidia
+    name:
+        - linux419-nvidia
+        - linux419-headers
+        - dkms
 
+- name: Checkout Magic Trackpad driver for Linux
+  git:
+    repo: "https://github.com/robotrovsky/Linux-Magic-Trackpad-2-Driver"
+    dest: /tmp/magicdriver
+
+- name: Build Magic Trackpad driver for Linux
+  become: yes
+  shell: /bin/sh install.sh
+  args:
+    chdir: /tmp/magicdriver/scripts
+    
+- name: Register Magic Trackpad driver for autoload
+  become: yes
+  copy:
+    dest: /etc/modules-load.d/hid-magicmouse.conf
+    content: |
+        hid-magicmouse 
