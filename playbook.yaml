@@ -40,37 +40,42 @@
   - name: Install fonts
     yay:
       name:
+        - ttf-anonymous-pro
+        - ttf-cardo
         - ttf-croscore
         - ttf-dejavu
         - ttf-mac-fonts
         - ttf-ms-fonts
-        - ttf-anonymous-pro
-        - ttf-cardo
-        - ttf-roboto-mono
-        - ttf-oxygen
         - ttf-opensans
+        - ttf-oxygen
+        - ttf-roboto-mono
         
   - name: Install common packages
     yay:
         name:
+        - dnsutils
+        - firefox
+        - franz
         - go
         - go-tools
-        - xorg-xbacklight
-        - redshift
-        - unzip
-        - zip
-        - spotify
         - goland
-        - visual-studio-code-bin
-        - xss-lock
-        - zoom
-        - firefox
         - google-chrome
-        - dnsutils
-        - pkgfile
-        - zeal
-        - franz
         - op
+        - pkgfile
+        - redshift
+        - spotify
+        - unzip
+        - visual-studio-code-bin
+        - xorg-xbacklight
+        - xss-lock
+        - zeal
+        - zip
+        - zoom
 
   - name: Apply user config
     import_tasks: tasks/userconfig.yaml
+
+  - name: Set git user/email
+    shell: >
+      git config --global user.email "dizzyd@dizzyd.com" &&
+      git config --global user.name "Dave Smith"    
