@@ -49,3 +49,7 @@
   become: yes
   command: update-grub
 
+- name: Copy Xmodmap
+  copy:
+    src: "files/Xmodmap"
+    dest: "/home/dizzyd/.Xmodmap"
