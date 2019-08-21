@@ -50,3 +50,10 @@
     line: "[ -f ~/.xprofile ] && . ~/.xprofile"
     insertbefore: "^DEFAULT_SESSION="
 
+- name: Enable user namespaces for Brave
+  become: yes
+  lineinfile:
+    path: /etc/sysctl.d/00-local-userns.conf
+    line: "kernel.unprivileged_userns_clone = 1"
+    create: yes
+

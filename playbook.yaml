@@ -62,6 +62,7 @@
   - name: Install common packages
     yay:
         name:
+        - brave
         - dnsutils
         - firefox
         - franz
