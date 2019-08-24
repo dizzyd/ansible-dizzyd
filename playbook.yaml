@@ -62,7 +62,9 @@
   - name: Install common packages
     yay:
         name:
+        - aws-cli
         - brave
+        - docker
         - dnsutils
         - firefox
         - franz
@@ -89,3 +91,14 @@
     shell: >
       git config --global user.email "dizzyd@dizzyd.com" &&
       git config --global user.name "Dave Smith"    
+
+  - name: Enable docker service
+    become: yes
+    systemd:
+      name: docker.service
+      enabled: yes
+      state: started
+
+  - name: Add myself to docker group
+    become: yes
+    command: gpasswd -a dizzyd docker
