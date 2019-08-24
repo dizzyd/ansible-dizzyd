@@ -45,6 +45,13 @@
         line: "    Option \"NaturalScrolling\" \"true\""
         insertbefore: "^EndSection"
 
+  - name: Enable touchpad while typing
+    become: yes
+    lineinfile:
+        path: /etc/X11/xorg.conf.d/30-touchpad.conf
+        regexp: "DisableWhileTyping"
+        line: "    Option \"DisableWhileTyping\" \"false\""
+        insertbefore: "^EndSection"
 
   - name: Install fonts
     yay:
