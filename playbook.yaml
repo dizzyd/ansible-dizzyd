@@ -37,6 +37,13 @@
         dest: /etc/NetworkManager/dispatcher.d/09-timezone
         mode: 0755    
 
+  - name: Install script for VPN fixup
+    become: yes
+    copy:
+        src: files/fixvpn.sh
+        dest: /etc/NetworkManager/dispatcher.d/08-fixvpn
+        mode: 0755
+
   - name: Enable natural scrolling
     become: yes
     lineinfile:
