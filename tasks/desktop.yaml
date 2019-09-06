@@ -12,7 +12,7 @@
 - name: Install nvidia proprietary drivers, linux headers and dkms
   yay:
     name:
-        - linux419-nvidia
+        - linux419-nvidia-430xx
         - linux419-headers
         - dkms
 
