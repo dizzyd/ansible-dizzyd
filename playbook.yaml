@@ -2,20 +2,20 @@
   hosts: localhost
   connection: local
   vars:
-    is_matebookx: "{{ ansible_facts['product_name'] == 'MACH-WX9' }}"
-    xorg_dpi: "{% if is_matebookx %}200{% else %}110{% endif %}"
+    is_notebook: "{{ ansible_facts['product_name'] == 'MACH-WX9' or ansible_facts['system_vendor'] == 'LENOVO' }}"
+    xorg_dpi: "{% if is_notebook %}200{% else %}110{% endif %}"
 
   tasks:
   - name: Install yay for AUR support
     pacman: name=yay state=present
 
   - name: Setup desktop
-    when: not is_matebookx|bool
+    when: not is_notebook|bool
     include_tasks: tasks/desktop.yaml
 
-  - name: Setup MatebookX
-    when: is_matebookx|bool
-    include_tasks: tasks/matebookx.yaml
+  - name: Setup notebook
+    when: is_notebook|bool
+    include_tasks: tasks/notebook.yaml
 
   - name: Enable periodic SSD trim
     become: yes
@@ -86,7 +86,6 @@
         - go-tools
         - goland
         - google-chrome
-        - op
         - pkgfile
         - redshift
         - spotify

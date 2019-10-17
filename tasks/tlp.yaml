@@ -1,4 +1,5 @@
 - name: Install TLP packages
+  become: yes
   pacman:
     name:
       - tlp

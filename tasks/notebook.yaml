@@ -1,17 +1,4 @@
 
-## NVidia configuration
-- name: Install NVidia and Bumblebee packages
-  pacman:
-    name:
-      - bumblebee
-      - bbswitch
-      - nvidia
-      - mesa
-      - acpi_call
-      - lib32-virtualgl
-      - lib32-nvidia-utils
-    state: present
-
 - name: Use mhwd to install base drivers
   become: yes
   shell: mhwd -a pci nonfree 0300
