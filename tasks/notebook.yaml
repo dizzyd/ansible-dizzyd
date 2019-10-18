@@ -28,6 +28,14 @@
       line: "    Option \"AccelSpeed\" \"0.6\""
       insertbefore: "^EndSection"
 
+- name: Use clickfinger for trackpad (not button areas)
+  become: yes
+  lineinfile:
+      path: /etc/X11/xorg.conf.d/30-touchpad.conf
+      regexp: "ClickMethod"
+      line: "    Option \"ClickMethod\" \"clickfinger\""
+      insertbefore: "^EndSection"
+
 - name: Enforce DRIv2 for intel driver
   become: yes
   lineinfile:
@@ -35,7 +43,6 @@
       regexp: "Option.+DRI"
       line: "\tOption\t\"DRI\" \"2\""
       insertbefore: "^EndSection"
-      backup: yes
 
 ## Configure power management system
 - name: Setup TLP
