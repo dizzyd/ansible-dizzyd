@@ -41,6 +41,18 @@
 - name: Setup TLP
   import_tasks: tasks/tlp.yaml  
 
+## Make sure battery module is part of initramfs
+- name: Include battery module in initramfs
+  become: yes
+  lineinfile:
+    path: /etc/mkinitcpio.conf
+    regexp: "MODULES="
+    line: "MODULES=(battery)"
+
+- name: Rebuild initramfs
+  become: yes
+  command: mkinitcpio -P
+
 ## Force PCIE ASPM for power efficiency
 - name: Add pcie_aspm flag to grub
   become: yes
