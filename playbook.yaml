@@ -30,6 +30,10 @@
   - name: Setup SSHD
     import_tasks: tasks/sshd.yaml
 
+  - name: Enable NTP
+    become: yes
+    command: timedatectl set-ntp true
+
   - name: Install script for auto-timezone adjustment
     become: yes
     copy:
@@ -60,6 +64,13 @@
         line: "    Option \"DisableWhileTyping\" \"false\""
         insertbefore: "^EndSection"
 
+  - name: Set default terminal font
+    become: yes
+    lineinfile:
+        path: /etc/vconsole.conf
+        regexp: "FONT="
+        line: "FONT=ter-v32n"
+
   - name: Install fonts
     yay:
       name:
@@ -72,6 +83,7 @@
         - ttf-opensans
         - ttf-oxygen
         - ttf-roboto-mono
+        - terminus-font
         
   - name: Install common packages
     yay:
